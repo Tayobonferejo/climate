@@ -12,6 +12,6 @@ async function fetchWeather() {
     }
 
     catch {
-        
+        console.error("Error fetching data:", error);
     }
 }
