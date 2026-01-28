@@ -52,6 +52,50 @@ p {
 
 h1 {
     font-family: "Bricolage Grotesque", sans-serif;
+    color: var(--Neutral0);
 
 
+}
+
+.form-section , #form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-section {
+    flex-direction: column
+}
+
+
+#form {
+    gap: 9px;
+
+}
+
+#search {
+    background-image: url(./images/icon-search.svg);
+    background-repeat: no-repeat;
+    width: 15px;
+    background-color: var(--Neutral700);
+    color: var(--Neutral300);
+    background-position: 20px;
+    width: 500px;
+    height: 35px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: none;
+
+    font-size: 24px;
+}
+
+#summit-button {
+    background-color: rgb(50, 50, 209);
+    color: var(--Neutral0);
+    width: 90px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+
+    font-size: 18px;
 }
