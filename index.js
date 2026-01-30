@@ -1,17 +1,30 @@
 
+const form = document.getElementById("form");
 const readInput = document.getElementById("search");
 const suggestionsBox = document.getElementById("suggestions");
 
-async function fetchWeather() {
+form.addEventListener("submit", fetchWeather)
+
+async function fetchWeather(event) {
+
+    event.preventDefault()
+    const lat = readInput.dataset.lat;
+    const lon = readInput.dataset.lon;
+
+      if (!lat || !lon) {
+      console.log("Please select a city from the suggestions");
+      return;
+    }
+
     try {
-        const response = await fetch("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation");
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation&timezone=Africa/Lagos`);
 
         if(!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const dataPoint = await response.json();
-        console.log(dataPoint);
+        console.log("Weather data:", dataPoint);
     }
 
     catch (error ){
@@ -57,7 +70,10 @@ function displayCity() {
         li.textContent = `${city}, ${country}`;
 
         li.addEventListener("click", () => {
-          readInput.value = `${city}, ${country}`;
+          readInput.value = `${city}, ${country}`
+
+          readInput.dataset.lat = item.properties.lat;
+          readInput.dataset.lon = item.properties.lon;
           suggestionsBox.innerHTML = "";
         });
 
