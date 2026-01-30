@@ -59,7 +59,7 @@ h1 {
 
 }
 
-.form-section , #form-div{
+.form-section , #form{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -72,7 +72,7 @@ h1 {
 
 #form {
     gap: 9px;
-
+    align-items: flex-start;
 }
 
 #search {
@@ -97,9 +97,9 @@ h1 {
     height: 40px;
     border: none;
     border-radius: 5px;
-
     font-size: 18px;
 }
+
 
 #suggestions {
   list-style: none;
