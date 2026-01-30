@@ -1,4 +1,5 @@
 
+const main = document.getElementById("main");
 const form = document.getElementById("form");
 const readInput = document.getElementById("search");
 const suggestionsBox = document.getElementById("suggestions");
@@ -26,6 +27,22 @@ async function fetchWeather(event) {
           const dataPoint = await response.json();
           console.log(dataPoint);
 
+          const outputValue = document.createElement("div");
+          outputValue.classList.add("weather");
+          main.appendChild(outputValue);
+          outputValue.innerHTML = `
+                <div>
+                    <h2 id="temp"></h2>
+                </div>
+                <div class="tempValue">
+                    <p id="feel"></p>
+                    <p id="humidity"></p>
+                    <p id="wind"></p>
+                    <p id="rain"></p>
+                </div>`;
+
+          
+ 
           const currentTemp = dataPoint.current;
 
           showingTemp(currentTemp);

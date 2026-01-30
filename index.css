@@ -118,3 +118,26 @@ h1 {
 #suggestions li:hover {
   background-color: var(--Neutral700);
 }
+
+
+.weather {
+    width: 60%;
+    
+}
+
+.weather > div:first-child {
+    height: 200px;
+    border: 2px solid var(--Neutral600);
+}
+
+.tempValue {
+    display: flex;
+    justify-content: space-around;
+}
+
+.tempValue > p{
+    border: 2px solid var(--Neutral600);
+    border-radius: 5px;
+    width: 200px;
+    height: 90px;
+}
