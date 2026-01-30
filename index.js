@@ -17,19 +17,24 @@ async function fetchWeather(event) {
     }
 
     try {
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation&timezone=Africa/Lagos`);
+          const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation&timezone=Africa/Lagos`);
 
-        if(!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+          if(!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const dataPoint = await response.json();
+          console.log(dataPoint);
+
+          const currentTemp = dataPoint.current;
+
+          showingTemp(currentTemp);
         }
-
-        const dataPoint = await response.json();
-        console.log("Weather data:", dataPoint);
-    }
 
     catch (error ){
         console.error("Error fetching data:", error);
     }
+
 }
 
 
@@ -81,4 +86,26 @@ function displayCity() {
       });
     })
     .catch(err => console.error(err));
+}
+
+
+function showingTemp (currentTemp) {
+
+
+    document.getElementById("temp").textContent =
+    `${currentTemp.temperature_2m}°C`;
+
+    document.getElementById("humidity").textContent =
+      `Humidity: ${currentTemp.relative_humidity_2m}%`;
+
+    document.getElementById("wind").textContent =
+      `Wind: ${currentTemp.wind_speed_10m} km/h`;
+
+    document.getElementById("rain").textContent =
+      `Rain: ${currentTemp.precipitation} mm`;
+
+    document.getElementById("feel").textContent =
+    `Feel: ${parseInt(currentTemp.temperature_2m) + parseInt(currentTemp.relative_humidity_2m)/100}mm`;
+
+
 }
