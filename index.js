@@ -4,6 +4,14 @@ const form = document.getElementById("form");
 const readInput = document.getElementById("search");
 const suggestionsBox = document.getElementById("suggestions");
 
+
+window.addEventListener("load", function (){
+  const lat = 6.90;
+  const lon = 6.90;
+  gettingWeather(lat, lon);
+
+})
+
 form.addEventListener("submit", fetchWeather)
 
 async function fetchWeather(event) {
@@ -17,40 +25,7 @@ async function fetchWeather(event) {
       return;
     }
 
-    try {
-          const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation&timezone=Africa/Lagos`);
-
-          if(!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          const dataPoint = await response.json();
-          console.log(dataPoint);
-
-          const outputValue = document.createElement("div");
-          outputValue.classList.add("weather");
-          main.appendChild(outputValue);
-          outputValue.innerHTML = `
-                <div>
-                    <h2 id="temp"></h2>
-                </div>
-                <div class="tempValue">
-                    <p id="feel"></p>
-                    <p id="humidity"></p>
-                    <p id="wind"></p>
-                    <p id="rain"></p>
-                </div>`;
-
-          
- 
-          const currentTemp = dataPoint.current;
-
-          showingTemp(currentTemp);
-        }
-
-    catch (error ){
-        console.error("Error fetching data:", error);
-    }
+    gettingWeather();
 
 }
 
@@ -125,4 +100,40 @@ function showingTemp (currentTemp) {
     `Feel: ${parseInt(currentTemp.temperature_2m) + parseInt(currentTemp.relative_humidity_2m)/100}mm`;
 
 
+}
+async function gettingWeather (lat, lon) {
+  try {
+          const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation&timezone=Africa/Lagos`);
+
+          if(!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const dataPoint = await response.json();
+          console.log(dataPoint);
+
+          const outputValue = document.createElement("div");
+          outputValue.classList.add("weather");
+          main.appendChild(outputValue);
+          outputValue.innerHTML = `
+                <div>
+                    <h2 id="temp"></h2>
+                </div>
+                <div class="tempValue">
+                    <p id="feel"></p>
+                    <p id="humidity"></p>
+                    <p id="wind"></p>
+                    <p id="rain"></p>
+                </div>`;
+
+          
+ 
+          const currentTemp = dataPoint.current;
+
+          showingTemp(currentTemp);
+        }
+
+    catch (error ){
+        console.error("Error fetching data:", error);
+    }
 }
