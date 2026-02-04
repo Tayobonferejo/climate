@@ -3,14 +3,15 @@ const main = document.getElementById("main");
 const form = document.getElementById("form");
 const readInput = document.getElementById("search");
 const suggestionsBox = document.getElementById("suggestions");
+let weatherCreated = false;
 
 
-window.addEventListener("load", function (){
-  const lat = 6.90;
-  const lon = 6.90;
+window.addEventListener("DOMContentLoaded", () => {
+  const lat = 7.2570;
+  const lon = 5.2058;
   gettingWeather(lat, lon);
+});
 
-})
 
 form.addEventListener("submit", fetchWeather)
 
@@ -25,7 +26,7 @@ async function fetchWeather(event) {
       return;
     }
 
-    gettingWeather();
+    gettingWeather(lat, lon);
 
 }
 
@@ -102,6 +103,8 @@ function showingTemp (currentTemp) {
 
 }
 async function gettingWeather (lat, lon) {
+
+  createWeatherUI()
   try {
           const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation&timezone=Africa/Lagos`);
 
@@ -110,23 +113,7 @@ async function gettingWeather (lat, lon) {
           }
 
           const dataPoint = await response.json();
-          console.log(dataPoint);
-
-          const outputValue = document.createElement("div");
-          outputValue.classList.add("weather");
-          main.appendChild(outputValue);
-          outputValue.innerHTML = `
-                <div>
-                    <h2 id="temp"></h2>
-                </div>
-                <div class="tempValue">
-                    <p id="feel"></p>
-                    <p id="humidity"></p>
-                    <p id="wind"></p>
-                    <p id="rain"></p>
-                </div>`;
-
-          
+          console.log(dataPoint);          
  
           const currentTemp = dataPoint.current;
 
@@ -136,4 +123,27 @@ async function gettingWeather (lat, lon) {
     catch (error ){
         console.error("Error fetching data:", error);
     }
+}
+
+
+function createWeatherUI() {
+  if (weatherCreated) return;
+
+  const outputValue = document.createElement("div");
+  outputValue.className = "weather";
+
+  outputValue.innerHTML = `
+    <div>
+      <h2 id="temp">--</h2>
+    </div>
+    <div class="tempValue">
+      <p id="feel"></p>
+      <p id="humidity"></p>
+      <p id="wind"></p>
+      <p id="rain"></p>
+    </div>
+  `;
+
+  main.appendChild(outputValue);
+  weatherCreated = true;
 }
