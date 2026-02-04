@@ -108,9 +108,13 @@ async function gettingWeather (lat, lon) {
   try {
 
           const response = await fetch(`https://api.open-meteo.com/v1/forecast
-?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation
-&daily=temperature_2m_max,temperature_2m_min,precipitation_sum
-&timezone=Africa/Lagos`);
+?latitude=${lat}
+&longitude=${lon}
+&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation
+&hourly=temperature_2m,precipitation,weather_code
+&daily=temperature_2m_max,temperature_2m_min
+&timezone=Africa/Lagos
+`);
 
           if(!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
