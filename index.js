@@ -98,7 +98,7 @@ function showingTemp (currentTemp) {
       `Rain: ${currentTemp.precipitation} mm`;
 
     document.getElementById("feel").textContent =
-    `Feel: ${parseInt(currentTemp.temperature_2m) + parseInt(currentTemp.relative_humidity_2m)/100}mm`;
+    `Feels like ${Math.round(currentTemp.apparent_temperature)}°C`
 
 
 }
@@ -110,7 +110,7 @@ async function gettingWeather (lat, lon) {
           const response = await fetch(`https://api.open-meteo.com/v1/forecast
 ?latitude=${lat}
 &longitude=${lon}
-&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation
+&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation,apparent_temperature
 &hourly=temperature_2m,precipitation,weather_code
 &daily=temperature_2m_max,temperature_2m_min
 &timezone=Africa/Lagos
@@ -127,6 +127,7 @@ async function gettingWeather (lat, lon) {
 
           showingTemp(currentTemp);
           displayHourly(dataPoint.hourly);
+          displayDaily(dataPoint.daily);
         }
 
     catch (error ){
@@ -158,10 +159,40 @@ function createWeatherUI() {
   rightSection.innerHTML = `
       <h3>Hourly Forecast</h3>
       <div id="hourly-container"></div>
+
+      <h3 style="margin-top:20px;">Daily Forecast</h3>
+      <div id="daily-container" class="daily-grid"></div>
   `;
 
   main.appendChild(outputValue);
   main.appendChild(rightSection); 
 
   weatherCreated = true;
+}
+
+function displayHourly(hourlyData) {
+  const container = document.getElementById("hourly-container");
+  container.innerHTML = "";
+
+  const now = new Date();
+  const currentHour = now.getHours();
+
+  for (let i = 0; i < hourlyData.time.length; i++) {
+    const hourTime = new Date(hourlyData.time[i]);
+    const hour = hourTime.getHours();
+
+    // show only next 8 hours
+    if (hourTime >= now && container.children.length < 8) {
+      const div = document.createElement("div");
+      div.className = "hour-item";
+
+      div.innerHTML = `
+        <p>${hour}:00</p>
+        <p>${hourlyData.temperature_2m[i]}°C</p>
+        <p>${hourlyData.precipitation[i]} mm</p>
+      `;
+
+      container.appendChild(div);
+    }
+  }
 }
