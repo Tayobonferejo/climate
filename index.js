@@ -126,6 +126,7 @@ async function gettingWeather (lat, lon) {
           const currentTemp = dataPoint.current;
 
           showingTemp(currentTemp);
+          displayHourly(dataPoint.hourly);
         }
 
     catch (error ){
@@ -152,6 +153,15 @@ function createWeatherUI() {
     </div>
   `;
 
+  const rightSection = document.createElement("div");
+  rightSection.className = "right-section";
+  rightSection.innerHTML = `
+      <h3>Hourly Forecast</h3>
+      <div id="hourly-container"></div>
+  `;
+
   main.appendChild(outputValue);
+  main.appendChild(rightSection); 
+
   weatherCreated = true;
 }
