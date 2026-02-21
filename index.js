@@ -196,3 +196,25 @@ function displayHourly(hourlyData) {
     }
   }
 }
+
+
+function displayDaily(dailyData) {
+  const container = document.getElementById("daily-container");
+  container.innerHTML = "";
+
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(dailyData.time[i]);
+    const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
+
+    const card = document.createElement("div");
+    card.className = "daily-card";
+
+    card.innerHTML = `
+      <p>${dayName}</p>
+      <p>${Math.round(dailyData.temperature_2m_max[i])}° / 
+      ${Math.round(dailyData.temperature_2m_min[i])}°</p>
+    `;
+
+    container.appendChild(card);
+  }
+}
