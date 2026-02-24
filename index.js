@@ -102,37 +102,32 @@ function showingTemp (currentTemp) {
 
 
 }
-async function gettingWeather (lat, lon) {
 
-  createWeatherUI()
+async function gettingWeather(lat, lon) {
+
+  createWeatherUI();
+
   try {
 
-          const response = await fetch(`https://api.open-meteo.com/v1/forecast
-?latitude=${lat}
-&longitude=${lon}
-&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation,apparent_temperature
-&hourly=temperature_2m,precipitation,weather_code
-&daily=temperature_2m_max,temperature_2m_min
-&timezone=Africa/Lagos
-`);
+    const response = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation,apparent_temperature&hourly=temperature_2m,precipitation,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=Africa/Lagos`
+    );
 
-          if(!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          const dataPoint = await response.json();
-          console.log(dataPoint);          
- 
-          const currentTemp = dataPoint.current;
-
-          showingTemp(currentTemp);
-          displayHourly(dataPoint.hourly);
-          displayDaily(dataPoint.daily);
-        }
-
-    catch (error ){
-        console.error("Error fetching data:", error);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    const dataPoint = await response.json();
+
+    const currentTemp = dataPoint.current;
+
+    showingTemp(currentTemp);
+    displayHourly(dataPoint.hourly);
+    displayDaily(dataPoint.daily);
+
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 }
 
 
@@ -217,4 +212,4 @@ function displayDaily(dailyData) {
 
     container.appendChild(card);
   }
-}
+}  
