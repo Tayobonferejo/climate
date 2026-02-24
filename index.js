@@ -132,15 +132,21 @@ async function gettingWeather(lat, lon) {
 
 
 function createWeatherUI() {
+
   if (weatherCreated) return;
+
+  const contentRow = document.createElement("div");
+  contentRow.className = "content-row";
+
 
   const outputValue = document.createElement("div");
   outputValue.className = "weather";
 
   outputValue.innerHTML = `
-    <div>
+    <div class="weather-main">
       <h2 id="temp">--</h2>
     </div>
+
     <div class="tempValue">
       <p id="feel"></p>
       <p id="humidity"></p>
@@ -149,8 +155,10 @@ function createWeatherUI() {
     </div>
   `;
 
+
   const rightSection = document.createElement("div");
   rightSection.className = "right-section";
+
   rightSection.innerHTML = `
       <h3>Hourly Forecast</h3>
       <div id="hourly-container"></div>
@@ -159,57 +167,81 @@ function createWeatherUI() {
       <div id="daily-container" class="daily-grid"></div>
   `;
 
-  main.appendChild(outputValue);
-  main.appendChild(rightSection); 
+
+  contentRow.appendChild(outputValue);
+  contentRow.appendChild(rightSection);
+
+  main.appendChild(contentRow);
 
   weatherCreated = true;
+
 }
 
+
 function displayHourly(hourlyData) {
+
   const container = document.getElementById("hourly-container");
   container.innerHTML = "";
 
   const now = new Date();
-  const currentHour = now.getHours();
+
+  let count = 0;
 
   for (let i = 0; i < hourlyData.time.length; i++) {
-    const hourTime = new Date(hourlyData.time[i]);
-    const hour = hourTime.getHours();
 
-    // show only next 8 hours
-    if (hourTime >= now && container.children.length < 8) {
+    const hourTime = new Date(hourlyData.time[i]);
+
+    if (hourTime >= now && count < 8) {
+
+      const hour = hourTime.getHours();
+
       const div = document.createElement("div");
+
       div.className = "hour-item";
 
       div.innerHTML = `
         <p>${hour}:00</p>
-        <p>${hourlyData.temperature_2m[i]}°C</p>
+        <p>${Math.round(hourlyData.temperature_2m[i])}°C</p>
         <p>${hourlyData.precipitation[i]} mm</p>
       `;
 
       container.appendChild(div);
+
+      count++;
+
     }
+
   }
+
 }
 
 
 function displayDaily(dailyData) {
+
   const container = document.getElementById("daily-container");
+
   container.innerHTML = "";
 
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < dailyData.time.length; i++) {
+
     const date = new Date(dailyData.time[i]);
+
     const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
 
     const card = document.createElement("div");
+
     card.className = "daily-card";
 
     card.innerHTML = `
       <p>${dayName}</p>
-      <p>${Math.round(dailyData.temperature_2m_max[i])}° / 
-      ${Math.round(dailyData.temperature_2m_min[i])}°</p>
+      <p>
+        ${Math.round(dailyData.temperature_2m_max[i])}° /
+        ${Math.round(dailyData.temperature_2m_min[i])}°
+      </p>
     `;
 
     container.appendChild(card);
+
   }
-}  
+
+} 
