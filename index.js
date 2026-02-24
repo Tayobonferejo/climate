@@ -130,7 +130,6 @@ async function gettingWeather(lat, lon) {
   }
 }
 
-
 function createWeatherUI() {
 
   if (weatherCreated) return;
@@ -139,44 +138,47 @@ function createWeatherUI() {
   contentRow.className = "content-row";
 
 
-  const outputValue = document.createElement("div");
-  outputValue.className = "weather";
+  // LEFT SECTION
+  const leftSection = document.createElement("div");
+  leftSection.className = "left-section";
 
-  outputValue.innerHTML = `
-    <div class="weather-main">
-      <h2 id="temp">--</h2>
+  leftSection.innerHTML = `
+
+    <div class="weather-main-card">
+        <h2 id="temp">--</h2>
     </div>
 
     <div class="tempValue">
-      <p id="feel"></p>
-      <p id="humidity"></p>
-      <p id="wind"></p>
-      <p id="rain"></p>
+        <p id="feel"></p>
+        <p id="humidity"></p>
+        <p id="wind"></p>
+        <p id="rain"></p>
     </div>
+
+    <h3 class="daily-title">Daily Forecast</h3>
+    <div id="daily-container" class="daily-grid"></div>
+
   `;
 
 
+  // RIGHT SECTION (Hourly only)
   const rightSection = document.createElement("div");
+
   rightSection.className = "right-section";
 
   rightSection.innerHTML = `
       <h3>Hourly Forecast</h3>
       <div id="hourly-container"></div>
-
-      <h3 style="margin-top:20px;">Daily Forecast</h3>
-      <div id="daily-container" class="daily-grid"></div>
   `;
 
 
-  contentRow.appendChild(outputValue);
+  contentRow.appendChild(leftSection);
   contentRow.appendChild(rightSection);
 
   main.appendChild(contentRow);
 
   weatherCreated = true;
-
 }
-
 
 function displayHourly(hourlyData) {
 
@@ -202,7 +204,6 @@ function displayHourly(hourlyData) {
       div.innerHTML = `
         <p>${hour}:00</p>
         <p>${Math.round(hourlyData.temperature_2m[i])}°C</p>
-        <p>${hourlyData.precipitation[i]} mm</p>
       `;
 
       container.appendChild(div);
@@ -214,7 +215,6 @@ function displayHourly(hourlyData) {
   }
 
 }
-
 
 function displayDaily(dailyData) {
 

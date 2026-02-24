@@ -120,24 +120,111 @@ h1 {
 }
 
 
-.weather {
-    width: 60%;
-    
+.weather-main {
+    height: 200px;
+    border-radius: 15px;
+    padding: 20px;
+    background: linear-gradient(135deg, #4b57d1, #6d4de6);
+    display: flex;
+    align-items: center;
 }
 
-.weather > div:first-child {
+#temp {
+    font-size: 70px;
+}
+
+.weather-main-card {
     height: 200px;
-    border: 2px solid var(--Neutral600);
+    border-radius: 15px;
+    padding: 20px;
+    background: linear-gradient(135deg, #4b57d1, #6d4de6);
+    display: flex;
+    align-items: center;
 }
 
 .tempValue {
     display: flex;
-    justify-content: space-around;
+    gap: 15px;
+    margin-top: 20px;
 }
 
-.tempValue > p{
-    border: 2px solid var(--Neutral600);
-    border-radius: 5px;
-    width: 200px;
+.tempValue p {
+    border-radius: 10px;
+    width: 160px;
     height: 90px;
+    background-color: var(--Neutral800);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-row {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    align-items: flex-start;
+}
+
+.right-section {
+    width: 35%;
+    background-color: var(--Neutral800);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.hour-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: var(--Neutral700);
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+
+.content-row {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.left-section {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-section {
+    width: 35%;
+    background-color: var(--Neutral800);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.daily-grid {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.daily-card {
+    background-color: var(--Neutral700);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    flex: 1;
+}
+
+.hour-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--Neutral700);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.daily-title {
+    margin-top: 25px;
+    margin-bottom: 5px;
 }
