@@ -241,8 +241,10 @@ function displayHourly(hourlyData) {
       const icon = weatherIcons[code] || "images/icon-sunny.webp";
 
       div.innerHTML = `
-        <img src="${icon}" class="weather-icon">
-        <p>${hour}:00</p>
+        <div class="iconDiv">
+          <img src="${icon}" class="weather-icon">
+          <p>${hour}:00</p>
+        </div>
         <p>${Math.round(hourlyData.temperature_2m[i])}°C</p>
       `;
 
