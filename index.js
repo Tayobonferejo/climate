@@ -1,4 +1,39 @@
 
+const weatherIcons = {
+
+  // Clear / Cloud
+  0: "images/icon-sunny.webp",           // Clear sky
+  1: "images/icon-partly-cloudy.webp",  // Mainly clear
+  2: "images/icon-partly-cloudy.webp",  // Partly cloudy
+  3: "images/icon-overcast.webp",       // Overcast
+
+  // Fog
+  45: "images/icon-fog.webp",
+  48: "images/icon-fog.webp",
+
+  // Drizzle
+  51: "images/icon-drizzle.webp",
+  53: "images/icon-drizzle.webp",
+  55: "images/icon-drizzle.webp",
+
+  // Rain
+  61: "images/icon-rain.webp",
+  63: "images/icon-rain.webp",
+  65: "images/icon-rain.webp",
+
+  // Snow
+  71: "images/icon-snow.webp",
+  73: "images/icon-snow.webp",
+  75: "images/icon-snow.webp",
+
+  // Thunderstorm
+  95: "images/icon-storm.webp",
+  96: "images/icon-storm.webp",
+  99: "images/icon-storm.webp"
+
+};
+
+
 const main = document.getElementById("main");
 const form = document.getElementById("form");
 const readInput = document.getElementById("search");
@@ -110,7 +145,7 @@ async function gettingWeather(lat, lon) {
   try {
 
     const response = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation,apparent_temperature&hourly=temperature_2m,precipitation,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=Africa/Lagos`
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation,apparent_temperature&hourly=temperature_2m,precipitation,weather_code&&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=Africa/Lagos`
     );
 
     if (!response.ok) {
@@ -201,7 +236,12 @@ function displayHourly(hourlyData) {
 
       div.className = "hour-item";
 
+      const code = hourlyData.weather_code[i];
+
+      const icon = weatherIcons[code] || "images/icon-sunny.webp";
+
       div.innerHTML = `
+        <img src="${icon}" class="weather-icon">
         <p>${hour}:00</p>
         <p>${Math.round(hourlyData.temperature_2m[i])}°C</p>
       `;
@@ -232,8 +272,13 @@ function displayDaily(dailyData) {
 
     card.className = "daily-card";
 
+    const code = dailyData.weather_code[i];
+
+    const icon = weatherIcons[code] || "images/icon-sunny.webp";
+
     card.innerHTML = `
       <p>${dayName}</p>
+      <img src="${icon}" class="daily-icon">
       <p>
         ${Math.round(dailyData.temperature_2m_max[i])}° /
         ${Math.round(dailyData.temperature_2m_min[i])}°

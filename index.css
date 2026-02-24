@@ -228,3 +228,13 @@ h1 {
     margin-top: 25px;
     margin-bottom: 5px;
 }
+
+.weather-icon {
+    width: 28px;
+    height: 28px;
+}
+
+.daily-icon {
+    width: 40px;
+    height: 40px;
+}
